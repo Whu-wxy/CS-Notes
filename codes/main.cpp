@@ -14,6 +14,7 @@
 #include <cstring>
 #include <unordered_set>
 #include <stack>
+#include <set>
 
 #include "threadpool.h"
 
@@ -166,6 +167,51 @@ bool verifyPostorder(vector<int>& postorder) {
 #define SWAP(x,y,t) ((t)=(x),(x)=(y),(y)=(t))
 #define mymax(x,y) ((x)>(y)?(x):(y))
 
+
+
+class MedianFinder
+{
+public:
+    priority_queue<int, vector<int>, less<int>> highQue; //大顶堆存小于中位数的
+    priority_queue<int, vector<int>, greater<int>> lowQue; //小顶堆存大于中位数的
+    /** initialize your data structure here. */
+    MedianFinder() {
+
+    }
+
+    void addNum(int num) {
+        if(lowQue.empty())
+        {
+            lowQue.push(num);
+            return;
+        }
+
+        if(lowQue.top() <= num) lowQue.push(num);
+        else highQue.push(num);
+
+        // rebalance
+        int l = lowQue.size(), h = highQue.size();
+        if(abs(l - h) <= 1) return;
+        if(l > h + 1)
+        {
+            highQue.push(lowQue.top());
+            lowQue.pop();
+        }
+        else if(h > l + 1)
+        {
+            lowQue.push(highQue.top());
+            highQue.pop();
+        }
+    }
+
+    double findMedian() {
+        int l = lowQue.size(), h = highQue.size();
+        if(l == h)
+            return (lowQue.top()+highQue.top()) / 2.0;
+        else if(l > h) return lowQue.top();
+        else return highQue.top();
+    }
+};
 
 
 
@@ -346,6 +392,25 @@ int main()
 //    stringstreamTest();
 
 
+//    String s("123");
+//    String s2(s);
+//    s2 = s;
+
+//    String s3(std::move(s));
+//    String s4;
+//    s4 = std::move(s);
+
+
+//    MedianFinder finder;
+//    finder.addNum(1);
+//    finder.addNum(2);
+//    double res = finder.findMedian();
+//    cout<<res<<endl;
+//    finder.addNum(3);
+//    res = finder.findMedian();
+//    cout<<res<<endl;
+
+
 
 //    TreeNode* n1 = new TreeNode(1);
 //    TreeNode* n3 = new TreeNode(3);
@@ -357,6 +422,19 @@ int main()
 
 //    Solution222 solu;
 //    solu.kthLargest(n3, 1);
+
+
+//    int a;
+//    while(cin>>a)
+//    {
+//        if(cin.get() == ' ') cout<<"blank"<<endl;
+//        if(cin.get() == '\n') cout<<"enter"<<endl;
+//        cout<<a<<endl;
+
+//    }
+
+
+
 
     return 0;
 }

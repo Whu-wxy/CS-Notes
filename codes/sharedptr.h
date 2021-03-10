@@ -53,7 +53,7 @@ public:
         return _ptr;
     }
 
-    SharedPtr<T>& operator=(SharedPtr<T>& tmp)
+    SharedPtr<T>& operator=(const SharedPtr<T>& tmp)
     {
         if (_ptr != tmp._ptr)//排除自己给自己赋值的可能
         {

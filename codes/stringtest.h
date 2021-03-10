@@ -8,6 +8,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <memory>
+#include <string.h>
 
 using namespace std;
 
@@ -199,6 +201,80 @@ int KMP(string haystack, string needle) {
     return -1;
 }
 // //////////////////////////////////////////////////
+
+
+
+//构造函数传const指针
+//参数都是取引用
+class String
+{
+public:
+    String(const char *str = nullptr)//普通构造函数
+    {
+        cout<<"构造函数"<<endl;
+        if(str == nullptr)//为NULL就初始化为空字符串
+        {
+            m_data = new char[1];
+            *m_data = '\0';
+        }
+        else
+        {
+            int len = strlen(str);
+            m_data = new char[len+1];//分配char类型的内存
+            strcpy(m_data,str);//将数据拷贝到分配的内存
+        }
+    }
+
+    // 注意 String s3 = s;  也是调用的拷贝构造
+    String(const String &other)//拷贝构造函数,参数为const
+    {
+        cout<<"拷贝构造"<<endl;
+        int length = strlen(other.m_data);
+        m_data = new char[length+1];//深拷贝
+        strcpy(m_data,other.m_data);//将数据拷贝到新分配的内存中
+    }
+
+    String& operator=(const String &other)//赋值函数，返回值为构造的对象
+    {
+        cout<<"拷贝赋值运算符"<<endl;
+        //注意要检查自赋值
+        if(this == &other)
+            return *this;//自赋值就不能释放资源，因为如果delete了，就不能获取它的长度和内容了
+
+        delete m_data;//释放未赋值前的内存资源
+
+        int length = strlen(other.m_data);
+        m_data = new char[length+1];//深拷贝
+        strcpy(m_data, other.m_data);
+        return *this;
+    }
+
+    String(String && other): m_data(other.m_data)
+    {
+        cout<<"移动构造"<<endl;
+        other.m_data = nullptr;
+    }
+
+    String& operator=(String && other)
+    {
+        cout<<"移动赋值"<<endl;
+        if(this == &other) //注意处理自赋值
+            return *this;
+
+        delete m_data;  // 将自己这块内存干掉
+        m_data = other.m_data;  // 对方的内存直接拿过来直接使用
+        other.m_data = nullptr; // 对方和当前内存的联系要斩断
+        return *this;
+    }
+
+    ~String()//析构函数
+    {
+        delete m_data;
+    }
+private:
+    char *m_data;
+};
+
 
 
 #endif // STRINGTEST_H

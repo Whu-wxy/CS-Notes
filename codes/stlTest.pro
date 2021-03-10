@@ -15,8 +15,10 @@ SOURCES += \
     threadpool.cpp
 
 HEADERS += \
+    binary_search.h \
     classtest.h \
     listtest.h \
+    lru.h \
     sharedptr.h \
     sortalg.h \
     stlfstream.h \
