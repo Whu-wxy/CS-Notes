@@ -23,11 +23,8 @@ char * m_strcat(char *strDst, const char *strSrc)
 //    assert((str1 != NULL) && (str2 != NULL));
     //注意断言assert 是仅在Debug 版本起作用的宏，是在Debug时做的无害测试
 
-    while(*strDst)
-    {
-        strDst++;
-    }//最后strDst指向Src末尾的\0
-    while(*strSrc) *strDst++=*strSrc++;
+    while(*strDst) strDst++;  //最后strDst指向Src末尾的\0
+    while(*strSrc) *strDst++ = *strSrc++;
     return address;
 }
 
@@ -111,9 +108,6 @@ int m_atoi(const char *str) {
      }
      return res*sign;
 }
-
-//string构造函数，拷贝构造，移动构造
-
 
 
 
@@ -241,7 +235,7 @@ public:
         if(this == &other)
             return *this;//自赋值就不能释放资源，因为如果delete了，就不能获取它的长度和内容了
 
-        delete m_data;//释放未赋值前的内存资源
+        delete []m_data;//释放未赋值前的内存资源
 
         int length = strlen(other.m_data);
         m_data = new char[length+1];//深拷贝
@@ -261,7 +255,7 @@ public:
         if(this == &other) //注意处理自赋值
             return *this;
 
-        delete m_data;  // 将自己这块内存干掉
+        delete []m_data;  // 将自己这块内存干掉
         m_data = other.m_data;  // 对方的内存直接拿过来直接使用
         other.m_data = nullptr; // 对方和当前内存的联系要斩断
         return *this;
@@ -269,7 +263,7 @@ public:
 
     ~String()//析构函数
     {
-        delete m_data;
+        delete []m_data;
     }
 private:
     char *m_data;

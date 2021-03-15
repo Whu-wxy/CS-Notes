@@ -132,34 +132,37 @@ string solve(string s, string t) {
         out.push_back(res[i]+'0');
     }
     return out.size() == 0? "0": out;
-    }
+}
 
 
-bool isValid(vector<int>& postorder, int begin, int end)
-{
-    if(begin >= end) return true;
-
-    int mid = postorder[end];
-    int left = begin;
-    int right = end-1;
-    if(left <= right)
+class SSS {
+public:
+    vector<string> res;
+    string path;
+    void dfs(int n, int cur)
     {
-        while(left<end && postorder[left] < mid) left++;
-        while(right>=0 && postorder[right] > mid) right--;
+        if(cur > n || cur < 0) return;
+        if(path.size() == n*2 && cur == 0)
+        {
+            res.push_back(path);
+            return;
+        }
+
+        path.push_back('(');
+        dfs(n, cur+1);
+        path.pop_back();
+
+        path.push_back(')');
+        dfs(n, cur-1);
+        path.pop_back();
     }
-    if(left < right) return false;
 
-    return isValid(postorder, begin, left-1) && isValid(postorder, right+1, end-1);
-
-
-}
-
-bool verifyPostorder(vector<int>& postorder) {
-    if(postorder.empty()) return true;
-
-    return isValid(postorder, 0, postorder.size()-1);
-}
-
+    vector<string> generateParenthesis(int n) {
+        path.push_back('(');
+        dfs(n, 1);
+        return res;
+    }
+};
 
 
 //#define myswap(a,b) (int c=a;a=b;b=c;)
@@ -212,6 +215,7 @@ public:
         else return highQue.top();
     }
 };
+
 
 
 
