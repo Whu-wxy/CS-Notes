@@ -1,0 +1,84 @@
+STL数据结构简介，复杂度分析
+多态    
+虚函数的实现
+编译的过程，链接的详细过程（没答上来）
+边缘检测，写了两个算子
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int val;
+    Node* next;
+    Node(int x): val(x), next(nullptr) { }
+};
+
+
+Node* solution(Node* root)
+{
+    if(!root) return nullptr;
+    
+    // find middle
+    Node* fast = root, *slow = root;
+    while(fast->next->next && fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    
+    // reverse second
+    Node* prev = slow;
+    slow = slow->next;
+    prev->next = nullptr;
+    prev = nullptr;
+    while(slow)
+    {
+        Node* temp = slow->next;
+        slow->next = prev;
+        prev = slow;
+        slow = temp;
+    }
+    
+    // merge
+    Node* cur = root;
+    Node* rightRoot = prev;
+    while(cur && rightRoot)
+    {
+        Node* temp = cur->next;
+        Node* rTemp = rightRoot->next;
+        cur->next = rightRoot;
+        rightRoot->next = temp;
+        rightRoot = rTemp;
+        cur = temp;
+    }
+    return root;
+}
+
+
+int main() {
+    Node* n1 = new Node(1);
+    Node* n2 = new Node(2);
+    Node* n3 = new Node(3);
+    Node* n4 = new Node(4);
+    Node* n5 = new Node(5);
+    Node* n6 = new Node(6);
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = n6;
+    
+    Node* res = solution(n1);
+    Node* cur = res;
+    while(cur)
+    {
+        cout<<cur->val;
+        cur = cur->next;
+    }
+        
+    
+    return 0;
+}

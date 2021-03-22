@@ -56,7 +56,7 @@ void insertSort(vector<int>& arr, int n)
         int val = arr[i];
         while(pos>0 && arr[pos-1] > val)
         {
-            arr[pos] = arr[pos-1];
+            arr[pos] = arr[pos-1];   //前面比它大的数往后移
             pos--;
         }
         arr[pos] = val;

@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 #include <string.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -203,10 +204,10 @@ int KMP(string haystack, string needle) {
 class String
 {
 public:
-    String(const char *str = nullptr)//普通构造函数
+    String(const char *str = nullptr)  //普通构造函数
     {
         cout<<"构造函数"<<endl;
-        if(str == nullptr)//为NULL就初始化为空字符串
+        if(str == nullptr)  //为NULL就初始化为空字符串
         {
             m_data = new char[1];
             *m_data = '\0';
@@ -215,12 +216,12 @@ public:
         {
             int len = strlen(str);
             m_data = new char[len+1];//分配char类型的内存
-            strcpy(m_data,str);//将数据拷贝到分配的内存
+            strcpy(m_data,str);  //将数据拷贝到分配的内存
         }
     }
 
     // 注意 String s3 = s;  也是调用的拷贝构造
-    String(const String &other)//拷贝构造函数,参数为const
+    String(const String &other)  //拷贝构造函数,参数为const
     {
         cout<<"拷贝构造"<<endl;
         int length = strlen(other.m_data);
@@ -228,7 +229,7 @@ public:
         strcpy(m_data,other.m_data);//将数据拷贝到新分配的内存中
     }
 
-    String& operator=(const String &other)//赋值函数，返回值为构造的对象
+    String& operator=(const String &other)  //赋值函数，返回值为构造的对象
     {
         cout<<"拷贝赋值运算符"<<endl;
         //注意要检查自赋值
@@ -270,5 +271,105 @@ private:
 };
 
 
+
+
+void reverseString(string& str, int i, int j)
+{
+    while(i < j)
+    {
+        swap(str[i], str[j]);
+        i++;
+        j--;
+    }
+}
+
+// 翻转单词，保留连续的多个空格
+void reverseString(string& str)
+{
+    reverse(str.begin(), str.end());
+
+    int i=0, j=0;
+    for (; i<str.size(); i++)
+    {
+        if(str[i] == ' ')
+            j++;
+        else
+        {
+            if(str[i] == ' ' && i != j)
+            {
+                reverseString(str, i, j);
+                i = j;
+            }
+        }
+    }
+    cout<<str<<endl;
+}
+
+
+// 最长公共子串，动态规划
+string LCS(string str1, string str2) {
+
+    vector<vector<int>> dp(str1.size()+1, vector<int>(str2.size()+1, 0));
+    string res;
+    for(int i=1; i<=str1.size(); i++)
+    {
+        for(int j=1; j<=str2.size(); j++)
+        {
+            if(str1[i-1] == str2[j-1])
+            {
+                if(i == 1 || j == 1)
+                    dp[i][j] = 1;
+                else
+                {
+                    dp[i][j] = max(dp[i][j], dp[i-1][j-1]) + 1;
+                    if(dp[i][j] > res.size())
+                        res = str1.substr(i-dp[i][j], dp[i][j]);
+                }
+
+            }
+        }
+    }
+    return res;
+}
+
+
+// 最长公共子序列，动态规划
+int longestCommonSubsequence(string text1, string text2) {
+    if(text1.empty() || text2.empty()) return 0;
+
+    //t1与t2的矩阵，值为两个位置前的子序列长度
+    vector<vector<int>> dp(text1.size()+1, vector<int>(text2.size()+1, 0));
+    for(int i=1; i<=text1.size(); i++)
+    {
+        for(int j=1; j<=text2.size(); j++)
+        {
+            if(text1[i-1] == text2[j-1]) //遇到两个字符相同
+                dp[i][j] = dp[i-1][j-1] + 1;
+            else
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);//矩阵i,j的上面一个和左一个取最大（意义为其中一个前进一位的结果）
+        }
+    }
+    return dp.back().back();
+}
+
+// 最长递增子序列，动态规划
+int lengthOfLIS(vector<int>& nums) {
+    //动态规划
+    vector<int> dp(nums.size(), 1);
+    int length = 1;
+    for(int i=0; i<nums.size(); i++)
+    {
+        for(int j=0; j<i; j++) //看前面的所有数，其中比自己小的
+        {
+            if(nums[j] < nums[i])
+            {
+                dp[i] = max(dp[i], dp[j]+1);
+                length = max(length, dp[i]);
+            }
+
+        }
+    }
+    return length;
+}
 
 #endif // STRINGTEST_H

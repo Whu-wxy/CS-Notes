@@ -5,7 +5,7 @@
 using namespace std;
 
 template<class T>
-class SharedPtr//模拟实现shared_ptr
+class SharedPtr   //模拟实现shared_ptr
 {
 public:
     SharedPtr(T* tmp = nullptr)
