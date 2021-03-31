@@ -24,8 +24,8 @@ char * m_strcat(char *strDst, const char *strSrc)
 //    assert((str1 != NULL) && (str2 != NULL));
     //注意断言assert 是仅在Debug 版本起作用的宏，是在Debug时做的无害测试
 
-    while(*strDst) strDst++;  //最后strDst指向Src末尾的\0
-    while(*strSrc) *strDst++ = *strSrc++;
+    while(*strDst) strDst++;
+    while(*strSrc) *strDst++ = *strSrc++; //最后strDst指向Src末尾的\0
     return address;
 }
 
