@@ -218,6 +218,38 @@ public:
 
 
 
+int longestPalindromeSubseq(string s) {
+    if(s.size() < 2) return s.size();
+
+    vector<vector<int>> dp(s.size(), vector<int>(s.size(), 0));
+    vector<vector<char>> dp2(s.size(), vector<char>(s.size(), ' '));
+    for(int i=s.size()-1; i>=0; i--)
+    {
+        for(int j=i+1; j<s.size(); j++)
+        {
+            bool bValid = false;
+            if(s[i] == s[j])
+            {
+                if(dp2[i+1][j-1] != s[j])
+                {
+                    bValid = true;
+                    dp2[i][j] = s[j];
+                    dp[i][j] = dp[i+1][j-1] + 2;
+                }
+            }
+            if(!bValid)
+            {
+                dp[i][j] = max(dp[i+1][j], dp[i][j-1]);
+                if(dp[i][j] == dp[i+1][j])
+                   dp2[i][j] = dp2[i+1][j];
+                else dp2[i][j] = dp2[i][j-1];
+            }
+        }
+    }
+    return dp[0].back();
+}
+
+
 
 int main()
 {
@@ -438,11 +470,9 @@ int main()
 //    }
 
 
-    // 3 4 5
-    // 3 2 6
-    // 2 1 1
 
-
+    int res = longestPalindromeSubseq("bbabab");   // bbabab  babbcb
+    cout<<res<<endl;
 
     return 0;
 }

@@ -216,7 +216,7 @@ public:
         {
             int len = strlen(str);
             m_data = new char[len+1];//分配char类型的内存
-            strcpy(m_data,str);  //将数据拷贝到分配的内存
+            strcpy(m_data, str);  //将数据拷贝到分配的内存
         }
     }
 
