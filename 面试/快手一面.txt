@@ -1,4 +1,4 @@
-std::remove的底层原理
+std::remove是什么，原理是？
 Qt用过哪些部分
 项目中提到的软件更新是什么
 QList和QVector

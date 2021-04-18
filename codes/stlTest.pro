@@ -15,6 +15,7 @@ SOURCES += \
     threadpool.cpp
 
 HEADERS += \
+    algorithmmoban.h \
     binary_search.h \
     classtest.h \
     listtest.h \

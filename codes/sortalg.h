@@ -133,7 +133,7 @@ void selectSort(vector<int>& arr)
 void adjustHeap(vector<int>& arr, int start, int end)
 {
     int root = start;
-    int child = 2*start + 1; //索引从0开始是这个，如果从1开始，则为2*start
+    int child = 2*root + 1; //索引从0开始是这个，如果从1开始，则为2*start
     while(child <= end)
     {
         if(child < end && arr[child] < arr[child+1]) //找左右结点最大的那个
