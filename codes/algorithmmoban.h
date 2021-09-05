@@ -172,16 +172,19 @@ vector<int> postorderTraversal(TreeNode* root) {
     vector<int> result;
     stack<TreeNode*> st;
     if (root != NULL) st.push(root);
-    while (!st.empty()) {
+    while (!st.empty())
+    {
         TreeNode* node = st.top();
-        if (node != NULL) {
+        if (node != NULL)
+        {
             st.pop();
             st.push(node);                          // 中
             st.push(NULL);
             if (node->right) st.push(node->right);  // 右
             if (node->left) st.push(node->left);    // 左
-
-        } else {
+        }
+        else
+        {
             st.pop();
             node = st.top();
             st.pop();
@@ -196,10 +199,12 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     queue<TreeNode*> que;
     if (root != NULL) que.push(root);
     vector<vector<int>> result;
-    while (!que.empty()) {
+    while (!que.empty())
+    {
         int size = que.size();
         vector<int> vec;
-        for (int i = 0; i < size; i++) {// 这里一定要使用固定大小size，不要使用que.size()
+        for (int i = 0; i < size; i++)
+        {// 这里一定要使用固定大小size，不要使用que.size()
             TreeNode* node = que.front();
             que.pop();
             vec.push_back(node->val);   // 节点处理的逻辑
