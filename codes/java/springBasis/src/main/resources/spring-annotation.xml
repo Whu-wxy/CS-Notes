@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  配置扫描包范围 com.wxy.annot -->
+    <context:component-scan base-package="com.wxy.annot"/>
+
+
+    <!--  自动化装配，使用注解配置  -->
+<!--    <context:annotation-config/>-->
+<!--    <bean id="UserService" class="com.wxy.annot.service.UserService">-->
+<!--        &lt;!&ndash;   set注入userDao属性，ref引用UserDao     &ndash;&gt;-->
+<!--        &lt;!&ndash;        <property name="userDao" ref="UserDao"></property>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <property name="userName" value="admin"></property>&ndash;&gt;-->
+<!--    </bean>-->
+<!--    <bean id="UserDao" class="com.wxy.annot.dao.UserDao">-->
+<!--    </bean>-->
+
+
+</beans>
