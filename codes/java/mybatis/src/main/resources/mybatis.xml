@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--  起别名  -->
+    <typeAliases>
+        <!--        <typeAlias type="com.wxy.vo.User" alias="User"></typeAlias>-->
+        <!--        <typeAlias type="com.wxy.query.UserQuery" alias="UserQuery"></typeAlias>-->
+        <!--   一个包下所有的文件起别名     -->
+        <package name="com.wxy.vo"/>
+        <package name="com.wxy.query"/>
+    </typeAliases>
+
+    <!--    <settings>-->
+    <!--        &lt;!&ndash;其他配置&ndash;&gt;-->
+    <!--        &lt;!&ndash;   该配置打开后，MyBatis会按照“下划线转驼峰“规则自动映射，即将数据库列role_name自动转换为属性roleName。     &ndash;&gt;-->
+    <!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
+    <!--    </settings>-->
+
+    <!--  数据源配置信息
+              可以配置不同的environment，例如开发，测试，生产，可以进行切换
+      -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/mybatis"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--   配置加载的映射文件，在源码目录(更多)或resources     -->
+        <mapper resource="com/wxy/mapper/UserMapper.xml"/>
+
+        <!--   注解方式注册     -->
+        <mapper class="com.wxy.dao.IUserDaoAnnotation"></mapper> 
+        <!--   或者     -->
+<!--        <package name="com.wxy.dao.IUserDaoAnnotation"/>-->
+    </mappers>
+</configuration>

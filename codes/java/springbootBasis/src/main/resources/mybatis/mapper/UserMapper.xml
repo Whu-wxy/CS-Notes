@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace名称区分不同的mapper-->
+<mapper namespace="com.wxy.springbootBasis.mapper.UserMapper">
+
+    <!--
+        id:区分当前文件下不同标签(Statement)
+        parameterType: 入参类型  基本类型（包装）|常用对象（String,Date) | JavaBean | Map(常用),List | 数组
+        resultType： 结果类型    map(key为userName,userPwd...)
+        标签体：SQL语句
+                #{userId}：参数占位
+      -->
+    <select id="queryUserById" parameterType="int" resultType="User">
+        select id, user_name as userName, user_pwd as userPwd, flag, create_time as createTime
+        from user
+        where id = #{userId}
+    </select>
+
+    <select id="queryUserByName" parameterType="string" resultType="User">
+        select id, user_name as userName, user_pwd as userPwd, flag, create_time as createTime
+        from user
+        where user_name = #{userName}
+    </select>
+
+    <select id="queryUserByNameAndPwd" parameterType="UserQuery" resultType="User">
+        select id, user_name as userName, user_pwd as userPwd, flag, create_time as createTime
+        from user
+        where user_name = #{userName}
+          and user_pwd = #{userPwd}
+    </select>
+
+    <select id="queryUserByNameLike" parameterType="string" resultType="User">
+        select id, user_name as userName, user_pwd as userPwd, flag, create_time as createTime
+        from user
+        where user_name like concat("%", #{userName}, "%")
+    </select>
+
+    <!--  useGeneratedKeys：true 添加记录后返回主键
+    对于支持 ##自动生成主键##的数据库，如 mysql，sql server
+    ，此时设置useGeneratedKeys为 true，在执行插入记录之后，可以读取到数据库自动生成的主键ID。
+          keyProperty: 指定主键映射到属性id值  -->
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(user_name, user_pwd, flag, create_time)
+        values (#{userName}, #{userPwd}, #{flag}, #{createTime})
+    </insert>
+
+    <!--
+    批量添加
+    parameterType为map，value中存list，则collection写key
+      -->
+    <insert id="insertUserBatch" parameterType="list">
+        insert into user(user_name, user_pwd, flag, create_time) values
+        <foreach collection="list" item="User" separator=",">
+            (#{User.userName}, #{User.userPwd}, #{User.flag}, #{User.createTime})
+        </foreach>
+    </insert>
+
+</mapper>
